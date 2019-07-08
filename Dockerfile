@@ -15,3 +15,6 @@ COPY --from=builder /root/go/src/github.com/cloudflare/cfssl/bin /usr/local/bin/
 RUN echo 'cfssl:x:10000:100:CFSSL Nonprivileged User:/:/bin/bash' >> /etc/passwd
 
 USER cfssl
+
+ENTRYPOINT ["cfssl"]
+CMD ["--help"]
