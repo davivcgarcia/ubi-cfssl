@@ -6,7 +6,9 @@ RUN yum -y module install go-toolset:rhel8 && \
 
 ENV cfssl_release 1.3.3
 
-RUN git clone --depth 1 --branch ${cfssl_release} https://github.com/cloudflare/cfssl.git /root/go/src/github.com/cloudflare/cfssl && \
+RUN git clone --depth 1 --branch ${cfssl_release} \
+        https://github.com/cloudflare/cfssl.git \
+        /root/go/src/github.com/cloudflare/cfssl && \
     cd /root/go/src/github.com/cloudflare/cfssl && \
     make
 
@@ -17,6 +19,7 @@ COPY --from=builder /root/go/src/github.com/cloudflare/cfssl/bin /usr/local/bin/
 RUN echo 'cfssl:x:10000:100:CFSSL Nonprivileged User:/:/bin/bash' >> /etc/passwd
 
 USER cfssl
+WORKDIR /tmp/cfssl
 
 ENTRYPOINT ["cfssl"]
 CMD ["--help"]
