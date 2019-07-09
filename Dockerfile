@@ -4,7 +4,9 @@ RUN yum -y module install go-toolset:rhel8 && \
     yum -y install git make && \
     yum -y clean all
 
-RUN git clone https://github.com/cloudflare/cfssl.git /root/go/src/github.com/cloudflare/cfssl && \
+ENV cfssl_release 1.3.3
+
+RUN git clone --depth 1 --branch ${cfssl_release} https://github.com/cloudflare/cfssl.git /root/go/src/github.com/cloudflare/cfssl && \
     cd /root/go/src/github.com/cloudflare/cfssl && \
     make
 
